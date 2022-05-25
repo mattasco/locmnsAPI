@@ -1,30 +1,33 @@
 package com.mns.locmns.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.mns.locmns.view.VueMateriel;
+import lombok.Data;
+import org.hibernate.annotations.Formula;
+import org.springframework.data.jpa.repository.Query;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.List;
 
+@Data
 @Entity
 public class Modele {
 
     @Id
-    @JsonView(VueMateriel.class)
     private Integer id;
 
-    @JsonView(VueMateriel.class)
     private String nom;
 
+    private String documentation;
+
+    private Integer caution;
+
+    private String photo;
+
     @ManyToOne
-    @JsonView(VueMateriel.class)
     @JoinColumn(name ="type_materiel_id")
     private TypeMateriel typeMateriel;
 
     @ManyToOne
-    @JsonView(VueMateriel.class)
     @JoinColumn(name = "marque_id")
     private Marque marque;
+
 }

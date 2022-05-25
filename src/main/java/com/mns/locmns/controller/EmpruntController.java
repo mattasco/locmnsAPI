@@ -1,9 +1,11 @@
 package com.mns.locmns.controller;
 
 import com.mns.locmns.dao.EmpruntDao;
-import com.mns.locmns.model.Emprunt;;
+import com.mns.locmns.model.Emprunt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin
 @RestController
@@ -22,4 +24,7 @@ public class EmpruntController {
 
     @GetMapping("/emprunt/{materielId}")
     public Emprunt empruntByMateriel(@PathVariable Integer materielId){return this.empruntDao.findByMaterielId(materielId).orElse(null);}
+
+    @GetMapping("/emprunt")
+    public List<Emprunt> listeEmprunts(){return  this.empruntDao.findAll();}
 }

@@ -1,18 +1,17 @@
 package com.mns.locmns.model;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.mns.locmns.view.VueMateriel;
+import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+@Data
 @Entity
 public class TypeMateriel {
-
     @Id
-    @JsonView(VueMateriel.class)
     private Integer id;
 
-    @JsonView(VueMateriel.class)
     private String nom;
+
+    private String photo;
 }

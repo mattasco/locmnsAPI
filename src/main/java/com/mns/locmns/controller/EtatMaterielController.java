@@ -14,4 +14,6 @@ public class EtatMaterielController {
 
     @Autowired
     public EtatMaterielController(EtatMaterielDao etatMaterielDao){this.etatMaterielDao=etatMaterielDao;}
+
+
 }
