@@ -1,6 +1,5 @@
 package com.mns.locmns.security;
 
-import com.mns.locmns.security.UserDetail;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -48,11 +47,8 @@ public class JwtUtils {
     }
 
     public boolean tokenValid(String token, UserDetails userDetails) {
-
         Claims claims = getTokenBody(token);
 
         return (claims.getSubject().equals(userDetails.getUsername()));
-
-
     }
 }
