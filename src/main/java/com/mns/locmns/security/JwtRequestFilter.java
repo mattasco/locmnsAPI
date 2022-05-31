@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             try {
                 String login = jwtUtils.getTokenBody(jwt).getSubject();
 
-                UserDetails userDetails = this.userDetailService.loadUserByUsername(login);
+                UserDetail userDetails = this.userDetailService.loadUserByUsername(login);
 
                 if(jwtUtils.tokenValid(jwt,userDetails)){
 

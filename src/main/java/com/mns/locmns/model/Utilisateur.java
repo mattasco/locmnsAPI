@@ -19,5 +19,5 @@ public class Utilisateur {
     private String adresse;
     private Integer telephone;
     private boolean admin;
-    private boolean valide;
+    private Integer numToken;
 }

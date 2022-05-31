@@ -29,7 +29,7 @@ public class MaterielController {
     //trouve le premier materiel disponible selon l'id modele
     @GetMapping("/materiel/{id}")
     public ResponseEntity<Materiel> materielDisponible(@PathVariable Integer id){
-        Optional<Materiel> retour = this.materielDao.findById(id);
+        Optional<Materiel> retour = this.materielDao.findOneByModeleId(id);
 
         if(retour.isPresent()){
             return ResponseEntity.ok(retour.get());

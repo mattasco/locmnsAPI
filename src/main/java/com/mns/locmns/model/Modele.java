@@ -29,5 +29,4 @@ public class Modele {
     @ManyToOne
     @JoinColumn(name = "marque_id")
     private Marque marque;
-
 }

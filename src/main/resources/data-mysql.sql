@@ -25,6 +25,10 @@ insert into materiel (id,num_serie,modele_id,etat_materiel_id,disponible) values
 (3,'1030',2,1,true),
 (4,'2010',3,1,true);
 
-insert into utilisateur (id, admin, adresse, email, login, nom, password, prenom, telephone, valide) values
-(1,true, '8t rue robert schuman','mat@mat.com','mattasco','jacques','bg','matthieu',0767394538,true),
-(2,false,'86 rue aux arenes','joe@smith.fr','joe','smith','root','joe',0,true);
+insert into utilisateur (id, admin, adresse, email, login, nom, password, prenom, telephone, num_token) values
+(1,true, '8t rue robert schuman','mat@mat.com','mattasco','jacques','bg','matthieu',0767394538,1),
+(2,false,'86 rue aux arenes','joe@smith.fr','joe','smith','root','joe',0,1);
+
+insert into emprunt (id,date_debut_pret,date_fin_pret,materiel_id,valide, emprunteur_id) values
+(1,'2022-05-25','2022-05-27',2,false,1),
+(2,'2022-06-30','2022-06-29',4,false,2);

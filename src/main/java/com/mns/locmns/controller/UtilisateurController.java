@@ -5,15 +5,15 @@ import com.mns.locmns.security.JwtUtils;
 import com.mns.locmns.security.UserDetail;
 import com.mns.locmns.security.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @CrossOrigin
 @RestController
@@ -54,5 +54,19 @@ public class UtilisateurController {
         retour.put("token",jwtUtils.generateToken(userDetails));
 
         return retour;
+    }
+
+    @GetMapping("/deconnexion")
+    public ResponseEntity<String> deconnexion(@RequestHeader("Authorization")String jwt){
+        String token =jwt.substring(7);
+        int idUtilisateurConnecte= (int)jwtUtils.getTokenBody(token).get("id");
+
+        Optional<Utilisateur> utilisateurOpptional= utilisateurDao.findById(idUtilisateurConnecte);
+        if(utilisateurOpptional.isPresent()){
+            utilisateurOpptional.get().setNumToken(utilisateurOpptional.get().getNumToken()+1);
+            utilisateurDao.save(utilisateurOpptional.get());
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.noContent().build();
     }
 }
