@@ -13,7 +13,6 @@ public class UserDetailService implements UserDetailsService {
 
     private UtilisateurDao utilisateurDao;
 
-
     @Autowired
     UserDetailService(UtilisateurDao utilisateurDao){this.utilisateurDao=utilisateurDao;}
 

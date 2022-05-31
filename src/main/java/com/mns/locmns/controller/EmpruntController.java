@@ -11,16 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
 @RestController
 public class EmpruntController {
+    @Autowired
     private EmpruntDao empruntDao;
 
     @Autowired
@@ -31,9 +29,6 @@ public class EmpruntController {
 
     @Autowired
     private JwtUtils jwtUtils;
-
-    @Autowired
-    public EmpruntController(EmpruntDao empruntDao){this.empruntDao=empruntDao;}
 
 
     @PostMapping("/emprunt/{id}")
@@ -56,6 +51,11 @@ public class EmpruntController {
         }else{
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @GetMapping("/empruntByIdEmprunt/{id}")
+    public Optional<Emprunt> empruntByIdEmprunt(@PathVariable Integer id){
+        return this.empruntDao.findById(id);
     }
 
     @GetMapping("/emprunt/{materielId}")
@@ -89,5 +89,33 @@ public class EmpruntController {
         }else{
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @GetMapping("/empruntencours")
+    public Iterable<Emprunt> empruntEnCours(){return empruntDao.findEnCours();}
+
+    @PostMapping("/retouremprunt")
+    public ResponseEntity<Emprunt> retourEmprunt(@RequestBody Integer id){
+        Emprunt empruntRetour = empruntDao.getById(id);
+        Date date=Calendar.getInstance().getTime();
+        empruntRetour.setDateRetourEffectif(date);
+        empruntDao.save(empruntRetour);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/emprunt")
+    public Iterable<Emprunt> mesEmprunts(@RequestHeader("Authorization") String jwt){
+        String token = jwt.substring(7);
+        int idUtilisateur=(int) jwtUtils.getTokenBody(token).get("id");
+        return empruntDao.findEncoursById(idUtilisateur);
+    }
+
+    @PostMapping("/dysfonctionnement/{id}")
+    public ResponseEntity<Emprunt> dysfonctionnement(@RequestBody Emprunt emprunt,@PathVariable Integer id){
+        Optional<Emprunt> empruntTrouve = empruntDao.findById(id);
+        Emprunt empruntAjour = empruntTrouve.get();
+        empruntAjour.setDysfonctionnement(emprunt.getDysfonctionnement());
+        empruntDao.save(empruntAjour);
+        return ResponseEntity.ok(empruntAjour);
     }
 }

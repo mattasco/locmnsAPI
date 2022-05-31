@@ -2,6 +2,8 @@ package com.mns.locmns.dao;
 
 import com.mns.locmns.model.Emprunt;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,4 +13,11 @@ public interface EmpruntDao extends JpaRepository<Emprunt,Integer> {
     Optional<Emprunt> findByMaterielId(Integer materielId);
 
     Iterable<Emprunt> findByValideFalse();
+
+    @Query("FROM Emprunt e where e.valide=true and e.dateRetourEffectif IS null")
+    Iterable<Emprunt> findEnCours();
+
+    @Query("FROM Emprunt e where e.dateRetourEffectif IS null and e.emprunteur.id=:id")
+    Iterable<Emprunt> findEncoursById(@Param("id")Integer id);
+
 }
