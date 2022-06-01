@@ -12,12 +12,14 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 @CrossOrigin
 @RestController
 public class UtilisateurController {
+    @Autowired
     private UtilisateurDao utilisateurDao;
 
     @Autowired   // injection de dépendances ( classe qui dépendent d'autre classe )
@@ -28,9 +30,6 @@ public class UtilisateurController {
 
     @Autowired
     private UserDetailService userDetailService;
-
-    @Autowired
-    public UtilisateurController(UtilisateurDao utilisateurDao){this.utilisateurDao=utilisateurDao;}
 
     @PostMapping("/connexion")            // renvoyer un token si l'utilisateur existe dans la BDD
     public Map<String, String> connexion(@RequestBody Utilisateur utilisateur) throws Exception {
@@ -68,5 +67,24 @@ public class UtilisateurController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/liste-utilisateur")
+    public List<Utilisateur> listeUtilisateurs(){return utilisateurDao.findAll();}
+
+    @DeleteMapping("utilisateur/{id}")
+    public ResponseEntity<Integer> deleteUtilisateur(@PathVariable Integer id){
+        if(utilisateurDao.existsById(id)){
+            this.utilisateurDao.deleteById(id);
+            return ResponseEntity.ok(id);
+        }else{
+            return ResponseEntity.noContent().build();
+        }
+    }
+
+    @PostMapping("/utilisateur")
+    public ResponseEntity<Utilisateur> createUtilisateur(@RequestBody Utilisateur utilisateur){
+        utilisateurDao.save(utilisateur);
+        return ResponseEntity.ok(utilisateur);
     }
 }

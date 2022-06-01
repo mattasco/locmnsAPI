@@ -12,6 +12,7 @@ import java.util.List;
 public class Modele {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     private String nom;

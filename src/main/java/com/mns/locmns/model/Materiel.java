@@ -14,6 +14,7 @@ import java.util.List;
 public class Materiel {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonView({MaterielView.class, EmpruntView.class})
     private Integer id;
 

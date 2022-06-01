@@ -14,10 +14,8 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class ModeleController {
-    private ModeleDao modeleDao;
-
     @Autowired
-    public ModeleController(ModeleDao modeleDao){this.modeleDao=modeleDao;}
+    private ModeleDao modeleDao;
 
     @GetMapping("/liste-modele/{id}")
     public List<Modele> listeModele (@PathVariable Integer id) {
