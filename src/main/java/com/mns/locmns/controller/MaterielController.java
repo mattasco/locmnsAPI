@@ -14,11 +14,9 @@ import java.util.Optional;
 @CrossOrigin
 @RestController
 public class MaterielController {
-
+    @Autowired
     private MaterielDao materielDao;
 
-    @Autowired
-    public MaterielController(MaterielDao materielDao){this.materielDao=materielDao;}
 
     //trouve la liste de materiel correspondant à un type de materiel
     @GetMapping("/liste-materiel/{id}")

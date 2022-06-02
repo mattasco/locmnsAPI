@@ -23,19 +23,18 @@ public class Emprunt {
     private Integer id;
 
     @JsonView({MaterielView.class, EmpruntView.class})
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateDemande;
 
     @JsonView({MaterielView.class, EmpruntView.class})
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateDebutPret;
 
     @JsonView({MaterielView.class, EmpruntView.class})
-    @JsonFormat(pattern="dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     private Date dateFinPret;
 
     @JsonView({MaterielView.class, EmpruntView.class})
-    @JsonFormat(pattern="dd-MM-yyyy")
     private Date dateRetourEffectif;
 
     @JsonView({MaterielView.class, EmpruntView.class})

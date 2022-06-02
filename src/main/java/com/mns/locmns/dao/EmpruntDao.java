@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.Optional;
 @Repository
 public interface EmpruntDao extends JpaRepository<Emprunt,Integer> {
-    Optional<Emprunt> findByMaterielId(Integer materielId);
-
     Iterable<Emprunt> findByValideFalse();
 
     @Query("FROM Emprunt e where e.valide=true and e.dateRetourEffectif IS null")
@@ -20,4 +18,5 @@ public interface EmpruntDao extends JpaRepository<Emprunt,Integer> {
     @Query("FROM Emprunt e where e.dateRetourEffectif IS null and e.emprunteur.id=:id")
     Iterable<Emprunt> findEncoursById(@Param("id")Integer id);
 
+    List<Emprunt> findByMaterielId(Integer id);
 }

@@ -11,8 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @CrossOrigin
@@ -29,6 +31,54 @@ public class EmpruntController {
 
     @Autowired
     private JwtUtils jwtUtils;
+
+    /*public boolean isDispo(Materiel materiel,Emprunt emprunt){
+        List<Emprunt> listeEmprunts = empruntDao.findByMaterielId(materiel.getId());
+        boolean pasDispo=false;
+        for(int i=0;i<listeEmprunts.size();i++){
+            if((listeEmprunts.get(i).getDateDebutPret()).getTime() > emprunt.getDateDebutPret().getTime()||listeEmprunts.get(i).getDateFinPret().getTime()>emprunt.getDateFinPret().getTime()
+                    && (
+                    (listeEmprunts.get(i).getDateDebutPret().getTime()<emprunt.getDateDebutPret().getTime() && listeEmprunts.get(i).getDateFinPret().getTime()>emprunt.getDateDebutPret().getTime())
+                            || (listeEmprunts.get(i).getDateDebutPret().getTime()<emprunt.getDateFinPret().getTime() && listeEmprunts.get(i).getDateFinPret().getTime()>emprunt.getDateFinPret().getTime())
+                            || (listeEmprunts.get(i).getDateDebutPret().getTime()<emprunt.getDateDebutPret().getTime() && listeEmprunts.get(i).getDateFinPret().getTime()>emprunt.getDateFinPret().getTime())
+                            || (listeEmprunts.get(i).getDateDebutPret().getTime()>emprunt.getDateDebutPret().getTime() && listeEmprunts.get(i).getDateFinPret().getTime()<emprunt.getDateFinPret().getTime())
+            )){
+                pasDispo=true;
+            }
+        }
+        return !pasDispo;
+    }
+
+
+    @PostMapping("/emprunt/{id}")
+    public ResponseEntity<Emprunt> createEmprunt(@RequestBody Emprunt emprunt, @RequestHeader("Authorization") String jwt,@PathVariable Integer id){
+        String token = jwt.substring(7);
+        int idEmprunteur=(int) jwtUtils.getTokenBody(token).get("id");
+        Utilisateur emprunteur = utilisateurDao.findById(idEmprunteur).get();
+        Emprunt nouvelEmprunt=new Emprunt();
+        Date dateDuJour = Calendar.getInstance().getTime();
+        List<Materiel> materiels= materielDao.findByModeleId(id);
+        boolean trouve=false;
+        while(trouve==true) {
+            for (int i=0; i < materiels.size(); i++) {
+                if (isDispo(materiels.get(i),emprunt)) {
+                    nouvelEmprunt.setMateriel(materiels.get(i));
+                    nouvelEmprunt.setEmprunteur(emprunteur);
+                    nouvelEmprunt.setDateDebutPret(emprunt.getDateDebutPret());
+                    nouvelEmprunt.setDateFinPret(emprunt.getDateFinPret());
+                    nouvelEmprunt.setUtilisation(emprunt.getUtilisation());
+                    nouvelEmprunt.setDateDemande(dateDuJour);
+                    empruntDao.save(nouvelEmprunt);
+                    trouve=true;
+                }
+            }
+        }
+        if(trouve==true){
+            return ResponseEntity.ok(nouvelEmprunt);
+        }else{
+            return ResponseEntity.noContent().build();
+        }
+    }*/
 
 
     @PostMapping("/emprunt/{id}")
@@ -53,18 +103,16 @@ public class EmpruntController {
         }
     }
 
+
     @GetMapping("/empruntByIdEmprunt/{id}")
     public Optional<Emprunt> empruntByIdEmprunt(@PathVariable Integer id){
         return this.empruntDao.findById(id);
     }
 
-    @GetMapping("/emprunt/{materielId}")
-    public Emprunt empruntByMateriel(@PathVariable Integer materielId){return this.empruntDao.findByMaterielId(materielId).orElse(null);}
-
-    @GetMapping("/empruntnonvalide")
+    @GetMapping("/admin/empruntnonvalide")
     public Iterable<Emprunt> empruntNonValide(){return  this.empruntDao.findByValideFalse();}
 
-    @PostMapping("/valideemprunt")
+    @PostMapping("/admin/valideemprunt")
     public ResponseEntity<Emprunt> valideEmprunt(@RequestBody Integer empruntId, @RequestHeader("Authorization") String jwt){
         Emprunt empruntAValider = empruntDao.getById(empruntId);
         String token = jwt.substring(7);
@@ -80,7 +128,7 @@ public class EmpruntController {
         }
     }
 
-    @DeleteMapping("/supprimeEmprunt/{empruntId}")
+    @DeleteMapping("/admin/supprimeEmprunt/{empruntId}")
     public ResponseEntity<Emprunt> supprimeEmprunt(@PathVariable Integer empruntId){
         Optional<Emprunt> empruntASupprimer = empruntDao.findById(empruntId);
         if(empruntASupprimer.isPresent()){
@@ -91,10 +139,10 @@ public class EmpruntController {
         }
     }
 
-    @GetMapping("/empruntencours")
+    @GetMapping("/admin/empruntencours")
     public Iterable<Emprunt> empruntEnCours(){return empruntDao.findEnCours();}
 
-    @PostMapping("/retouremprunt")
+    @PostMapping("/admin/retouremprunt")
     public ResponseEntity<Emprunt> retourEmprunt(@RequestBody Integer id){
         Emprunt empruntRetour = empruntDao.getById(id);
         Date date=Calendar.getInstance().getTime();

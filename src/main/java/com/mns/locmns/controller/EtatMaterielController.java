@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class EtatMaterielController {
-    private EtatMaterielDao etatMaterielDao;
-
     @Autowired
-    public EtatMaterielController(EtatMaterielDao etatMaterielDao){this.etatMaterielDao=etatMaterielDao;}
-
-
+    private EtatMaterielDao etatMaterielDao;
 }

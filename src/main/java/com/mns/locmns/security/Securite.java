@@ -28,9 +28,6 @@ import java.util.List;
 public class Securite extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailService userDetailsService;
-
-    @Autowired
-    private JwtUtils jwtUtils;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
 
@@ -44,7 +41,9 @@ public class Securite extends WebSecurityConfigurerAdapter {
 
         http.cors().and().csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/connexion").permitAll()
+                .antMatchers("/**").hasAnyRole("USER","ADMIN")
+                .antMatchers("/admin/**").hasAnyRole("ADMIN")
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -64,14 +63,9 @@ public class Securite extends WebSecurityConfigurerAdapter {
         return source;
     }
 
-//    @Bean
-//    public PasswordEncoder getPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-
     @Bean
     public PasswordEncoder getPasswordEncoder() {
-        return NoOpPasswordEncoder.getInstance();
+        return new BCryptPasswordEncoder();
     }
 
     @Bean(name="authenticationManager")

@@ -12,12 +12,10 @@ import java.util.List;
 @CrossOrigin
 @RestController
 public class  TypeMaterielController {
+    @Autowired
     private TypeMaterielDao typeMaterielDao;
 
-    @Autowired
-    public TypeMaterielController(TypeMaterielDao typeMaterielDao){this.typeMaterielDao=typeMaterielDao;}
-
-    @GetMapping("/liste-type-materiel")
+    @GetMapping("/admin/liste-type-materiel")
     public List<TypeMateriel> listeMateriel () {
         return this.typeMaterielDao.findAll();
     }

@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin
 @RestController
 public class MarqueController {
-    private MarqueDao marqueDao;
-
     @Autowired
-    public MarqueController(MarqueDao marqueDao){this.marqueDao=marqueDao;}
+    private MarqueDao marqueDao;
 }

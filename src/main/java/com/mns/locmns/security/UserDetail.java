@@ -1,6 +1,7 @@
 package com.mns.locmns.security;
 
 import com.mns.locmns.model.Utilisateur;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class UserDetail implements UserDetails{
+    @Autowired
     private Utilisateur utilisateur;
     public UserDetail(Utilisateur utilisateur){this.utilisateur=utilisateur;}
     public Utilisateur getUtilisateur() {
