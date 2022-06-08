@@ -1,5 +1,6 @@
 package com.mns.locmns.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import javax.persistence.Entity;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 
 @Data
 @Entity
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+
 public class Marque {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

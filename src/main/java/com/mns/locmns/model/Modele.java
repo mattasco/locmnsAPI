@@ -1,5 +1,6 @@
 package com.mns.locmns.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 import org.hibernate.annotations.Formula;
 import org.springframework.data.jpa.repository.Query;

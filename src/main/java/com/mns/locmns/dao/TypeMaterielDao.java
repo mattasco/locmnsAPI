@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 
 public interface TypeMaterielDao extends JpaRepository<TypeMateriel,Integer> {
+    TypeMateriel findByNom(String nom);
 }
