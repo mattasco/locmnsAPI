@@ -23,7 +23,6 @@ public class LocmnsApplication extends SpringBootServletInitializer {
 	public void init() {
 		TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
 	}
-
 	public static void main(String[] args) {
 		SpringApplication.run(LocmnsApplication.class, args);
 	}

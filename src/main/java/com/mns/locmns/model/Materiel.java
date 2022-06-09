@@ -31,10 +31,7 @@ public class Materiel {
     @JsonView({MaterielView.class, EmpruntView.class})
     private EtatMateriel etatMateriel;
 
-    @JsonView({MaterielView.class, EmpruntView.class})
-    private boolean disponible;
-
-    @OneToMany
+    @OneToMany(mappedBy = "materiel",cascade = CascadeType.ALL,orphanRemoval = true)
     @JsonView(MaterielView.class)
     private List<Emprunt> emprunts;
 }

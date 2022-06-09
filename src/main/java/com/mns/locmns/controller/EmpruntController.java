@@ -1,5 +1,6 @@
 package com.mns.locmns.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mns.locmns.dao.EmpruntDao;
 import com.mns.locmns.dao.MaterielDao;
 import com.mns.locmns.dao.UtilisateurDao;
@@ -7,6 +8,7 @@ import com.mns.locmns.model.Emprunt;
 import com.mns.locmns.model.Materiel;
 import com.mns.locmns.model.Utilisateur;
 import com.mns.locmns.security.JwtUtils;
+import com.mns.locmns.view.EmpruntView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -166,4 +168,8 @@ public class EmpruntController {
         empruntDao.save(empruntAjour);
         return ResponseEntity.ok(empruntAjour);
     }
+
+    @GetMapping("/allemprunt")
+    @JsonView(EmpruntView.class)
+    public List<Emprunt> all(){return empruntDao.findAll();}
 }

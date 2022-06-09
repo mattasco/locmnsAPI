@@ -1,10 +1,12 @@
 package com.mns.locmns.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mns.locmns.dao.ModeleDao;
 import com.mns.locmns.dao.TypeMaterielDao;
 import com.mns.locmns.model.Modele;
 import com.mns.locmns.model.TypeMateriel;
 import com.mns.locmns.model.Utilisateur;
+import com.mns.locmns.view.TypeMaterielView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ public class  TypeMaterielController {
     private ModeleDao modeleDao;
 
     @GetMapping("/admin/liste-type-materiel")
+    @JsonView(TypeMaterielView.class)
     public List<TypeMateriel> listeMateriel () {
         return this.typeMaterielDao.findAll();
     }

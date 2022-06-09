@@ -1,7 +1,13 @@
 package com.mns.locmns.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.mns.locmns.dao.EmpruntDao;
 import com.mns.locmns.dao.MaterielDao;
+import com.mns.locmns.dao.ModeleDao;
+import com.mns.locmns.model.Emprunt;
 import com.mns.locmns.model.Materiel;
+import com.mns.locmns.model.Modele;
+import com.mns.locmns.view.MaterielView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +21,17 @@ import java.util.Optional;
 @RestController
 public class MaterielController {
     @Autowired
+    private EmpruntDao empruntDao;
+    @Autowired
     private MaterielDao materielDao;
+
+    @Autowired
+    private ModeleDao modeleDao;
 
 
     //trouve la liste de materiel correspondant à un type de materiel
     @GetMapping("/liste-materiel/{id}")
-    public List<Materiel> listeMateriel (@PathVariable Integer id) {
+    public List<Materiel> listeMaterielByModele (@PathVariable Integer id) {
         return this.materielDao.findByModeleId(id);
     }
 
@@ -37,7 +48,7 @@ public class MaterielController {
     }
 
     //trouve le materiel selon son id
-    @GetMapping("/materielID/{id}")
+    @GetMapping("/admin/materielID/{id}")
     public Optional<Materiel> materiel(@PathVariable Integer id){return this.materielDao.findById(id);}
 
     //Create or Updatea
@@ -47,14 +58,36 @@ public class MaterielController {
         return ResponseEntity.status(HttpStatus.CREATED).body(materiel);
     }
 
-    @DeleteMapping("/admin/materiel/{id}")
+    @DeleteMapping("/admin/deletemateriel/{id}")
     public ResponseEntity<Integer> deleteMateriel(@PathVariable int id) {
-
         if(materielDao.existsById(id)){
+            List<Emprunt> aSupprimer = empruntDao.findByMaterielId(id);
+            for(int i = 0 ; i<aSupprimer.size();i++){
+                empruntDao.deleteById(aSupprimer.get(i).getId());
+            }
             this.materielDao.deleteById(id);
             return ResponseEntity.ok(id);
         }else{
             return ResponseEntity.noContent().build();
         }
+    }
+
+    @GetMapping("/admin/liste-materiel")
+    @JsonView(MaterielView.class)
+    public List<Materiel> allMateriel(){return materielDao.findAll();}
+
+    @GetMapping("/admin/recherchemateriel/{value}")
+    @JsonView(MaterielView.class)
+    public List<Materiel> rechercheMateriel(@PathVariable String value){return materielDao.findRecherche(value);}
+
+
+    @PostMapping("/admin/ajoutermateriel")
+    @JsonView(MaterielView.class)
+    public ResponseEntity<Materiel> ajoutermateriel(@RequestBody Materiel materiel){
+        Materiel nouveauMateriel = new Materiel();
+        nouveauMateriel.setNumSerie(materiel.getNumSerie());
+        nouveauMateriel.setModele(modeleDao.findByNom(materiel.getModele().getNom()));
+        materielDao.save(nouveauMateriel);
+        return ResponseEntity.ok(nouveauMateriel);
     }
 }

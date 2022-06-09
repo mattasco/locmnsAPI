@@ -1,11 +1,13 @@
 package com.mns.locmns.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.mns.locmns.dao.MarqueDao;
 import com.mns.locmns.dao.MaterielDao;
 import com.mns.locmns.dao.ModeleDao;
 import com.mns.locmns.dao.TypeMaterielDao;
 import com.mns.locmns.model.Materiel;
 import com.mns.locmns.model.Modele;
+import com.mns.locmns.view.ModeleView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,7 @@ public class ModeleController {
     }
 
     @GetMapping("/admin/liste-modele")
+    @JsonView(ModeleView.class)
     public List<Modele> listeModele(){return modeleDao.findAll();}
 
     @DeleteMapping("/admin/deletemodele/{id}")
@@ -59,8 +62,9 @@ public class ModeleController {
     }
 
     @GetMapping("/admin/recherchemodele/{nom}")
+    @JsonView(ModeleView.class)
     public List<Modele> rechercheModele(@PathVariable String nom){
-        return modeleDao.findByNom(nom);
+        return modeleDao.findByRecherche(nom);
     }
 
     @PostMapping("/admin/modifiermodele/{id}")

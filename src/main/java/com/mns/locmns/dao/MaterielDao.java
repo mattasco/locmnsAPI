@@ -14,4 +14,7 @@ public interface MaterielDao extends JpaRepository<Materiel,Integer> {
 
     @Query(value = "SELECT * FROM materiel where materiel.modele_id=:id LIMIT 1", nativeQuery = true)
     Optional<Materiel> findOneByModeleId(Integer id);
+
+    @Query("FROM Materiel materiel where materiel.numSerie like :value% or materiel.modele.nom like :value% or materiel.modele.marque.nom like :value% or materiel.modele.typeMateriel.nom like :value%")
+    List<Materiel> findRecherche(String value);
 }

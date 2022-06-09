@@ -19,11 +19,12 @@ INSERT INTO modele (id,nom, documentation, caution,photo, marque_id,type_materie
 insert into etat_materiel (id,etat,observations) values
 (1,'bon','bon état');
 
-insert into materiel (id,num_serie,modele_id,etat_materiel_id,disponible) values
-(1, '1010',2,1,true),
-(2,'1020',2,1,false),
-(3,'1030',2,1,true),
-(4,'2010',3,1,true);
+insert into materiel (id,num_serie,modele_id,etat_materiel_id) values
+(1,'1010',2,1),
+(2,'1020',2,1),
+(3,'1030',2,1),
+(4,'2010',3,1),
+(5,'3050',5,1);
 
 insert into utilisateur (id, admin, adresse, email, login, nom, password, prenom, telephone, num_token) values
 (1,true, '8t rue robert schuman','mat@mat.com','mattasco','jacques','$2a$10$7kAMwyFvx.V8KOrC2YGWzuP1MnfDizeZ4Ys.sj6bBcccDWhZX8DPa','matthieu','0767394538',1),
